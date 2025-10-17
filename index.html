@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Melek için Doğum Günü</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1: #0b0011;
+    --bg2: #3d0043;
+    --accent1: #8cffc1;
+    --accent2: #d48cff;
+    --pink: #ff66cc;
+  }
+  html,body{height:100%;margin:0;font-family:Poppins,system-ui;overflow:hidden;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff}
+  /* floating hearts and flowers container */
+  .particle{position:fixed;pointer-events:none;bottom:-50px;will-change:transform,opacity;mix-blend-mode:screen}
+  /* heart shape */
+  .heart{width:28px;height:28px;transform:rotate(45deg);background:linear-gradient(180deg,#ff79c6,#ff1493);border-radius:4px;box-shadow:0 6px 18px rgba(0,0,0,0.25)}
+  .heart::before,.heart::after{content:"";position:absolute;width:28px;height:28px;border-radius:50%;background:inherit;top:-14px;left:0;box-shadow:inherit}
+  .heart::after{left:-14px;top:0}
+  /* flower shape */
+  .flower{width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+  .petal{position:absolute;width:14px;height:22px;background:linear-gradient(180deg,#ffd1f0,#ff9ad1);border-radius:10px;transform-origin:50% 90%;box-shadow:0 6px 14px rgba(0,0,0,0.25)}
+  .center{width:10px;height:10px;background:radial-gradient(circle,#ffd86b,#ffb84d);border-radius:50%}
+  /* letter modal */
+  .letter-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px}
+  .letter{width:90%;max-width:640px;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));border-radius:18px;padding:28px;border:1px solid rgba(255,255,255,0.12);box-shadow:0 20px 50px rgba(0,0,0,0.6);backdrop-filter:blur(6px);text-align:left;transform:translateY(-20px) scale(.98);opacity:0;animation:letterIn 800ms cubic-bezier(.2,.9,.2,1) forwards}
+  @keyframes letterIn{to{transform:none;opacity:1}}
+  .letter h1{margin:0 0 10px;font-size:20px;font-weight:700;text-align:center}
+  .letter .content{white-space:pre-line;line-height:1.65;font-size:17px;letter-spacing:.2px;opacity:0;animation:fadeText 1.2s 400ms forwards}
+  @keyframes fadeText{to{opacity:1}}
+  .close-btn{display:block;margin:18px auto 0;background:transparent;border:1px solid rgba(255,255,255,0.18);padding:8px 18px;border-radius:12px;color:#fff;cursor:pointer;font-weight:600}
+  /* cake */
+  .cake-wrap{position:fixed;left:50%;transform:translateX(-50%);bottom:26px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .cake{width:260px;height:130px;background:linear-gradient(180deg,#ffdce6,#ffb6cc);border-radius:18px 18px 12px 12px;box-shadow:0 12px 30px rgba(0,0,0,0.45);position:relative;overflow:visible}
+  .cake::before{content:'';position:absolute;left:20px;right:20px;top:14px;height:40px;background:linear-gradient(180deg,#fff6,#0000);border-radius:8px}
+  .plate{width:320px;height:22px;background:linear-gradient(180deg,#3b0b2a,#2a0020);border-radius:20px;margin-top:8px;opacity:.9}
+  .candles{position:absolute;left:50%;transform:translateX(-50%);top:-42px;display:flex;gap:12px}
+  .candle{width:10px;height:44px;background:linear-gradient(180deg,#fff,#f2f2f2);border-radius:3px;position:relative;box-shadow:0 6px 10px rgba(0,0,0,0.2)}
+  .wick{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:2px;height:6px;background:#222;border-radius:2px}
+  .flame{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:12px;height:18px;border-radius:50%;background:radial-gradient(circle,#ffef6b,#ff8a00);filter:drop-shadow(0 6px 8px rgba(255,120,80,0.25));animation:flicker .12s infinite alternate}
+  @keyframes flicker{from{transform:translateX(-50%) translateY(0) scale(1)}to{transform:translateX(-50%) translateY(-2px) scale(.95)}}
+  /* small sparkle around cake */
+  .sparkle{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#fff6,#ffd);border-radius:50%;opacity:.9;filter:blur(.6px)}
+
+  /* mobile adjustments */
+  @media (max-width:460px){.cake{width:200px;height:98px}.candles{gap:8px}.letter{padding:20px}}
+
+  /* subtle floating for letter box */
+  @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+  .letter{animation:letterIn 800ms cubic-bezier(.2,.9,.2,1) forwards, floaty 6s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<!-- Particle containers -->
+<div id="particles"></div>
+
+<!-- Letter modal -->
+<div class="letter-wrap">
+  <div class="letter" role="dialog" aria-label="Mektup">
+    <h1>Mektup</h1>
+    <div class="content" id="letterText">
+Hayattaki en doğru iyikimsin
+Seninle her an daha güzel
+Her gülüşün dünyamı aydınlatıyor
+Seninle olmak en büyük şansım
+Varlığın ruhuma huzur veriyor
+Sen benim en değerli mucizemsin
+Her doğum günün bana mutluluk getiriyor
+Seninle her şey anlam kazanıyor
+Seni çok seviyorum
+Zorlu günler geçirdik geçircez ama eminimki beraber çok güzel günlerede tanıklık edicez
+Seni hep destekliycem seni çok seviyorum
+Doğum günün kutlu olsun
+Hayatta hep en iyi yerlere gel beraber gelelim inşallah
+    </div>
+    <button class="close-btn" id="openBtn">Mektubu Kapat</button>
+  </div>
+</div>
+
+<!-- Cake -->
+<div class="cake-wrap" aria-hidden="true">
+  <div class="cake" id="cake">
+    <div class="candles" id="candles"></div>
+    <!-- sparkles will be generated by JS -->
+  </div>
+  <div class="plate"></div>
+</div>
+
+<script>
+// Create hearts and flowers periodically
+const particles = document.getElementById('particles')
+function spawnHeart(x){
+  const el = document.createElement('div')
+  el.className = 'particle heart'
+  el.innerHTML = '<div class="heart"></div>'
+  el.style.left = x + 'px'
+  const dur = 4000 + Math.random()*3000
+  el.style.transition = 'transform '+(dur)+'ms linear, opacity '+(dur)+'ms linear'
+  particles.appendChild(el)
+  requestAnimationFrame(()=>{
+    el.style.transform = 'translateY(-110vh) rotate('+ (Math.random()*40-20) +'deg) scale('+(0.8+Math.random()*0.7)+')'
+    el.style.opacity = 0
+  })
+  setTimeout(()=>el.remove(), dur+100)
+}
+function spawnFlower(x){
+  const el = document.createElement('div')
+  el.className = 'particle flower'
+  el.style.left = x + 'px'
+  el.style.width = '40px'
+  el.style.height = '40px'
+  el.style.transition = 'transform 4800ms linear, opacity 4800ms linear'
+  // build flower petals
+  el.innerHTML = `
+    <div class="petal" style="transform:rotate(0deg) translateY(-6px)"></div>
+    <div class="petal" style="transform:rotate(72deg) translateY(-6px)"></div>
+    <div class="petal" style="transform:rotate(144deg) translateY(-6px)"></div>
+    <div class="petal" style="transform:rotate(216deg) translateY(-6px)"></div>
+    <div class="petal" style="transform:rotate(288deg) translateY(-6px)"></div>
+    <div class="center"></div>
+  `
+  particles.appendChild(el)
+  requestAnimationFrame(()=>{
+    el.style.transform = 'translateY(-110vh) scale('+(0.9+Math.random()*0.5)+') rotate('+ (Math.random()*40-20) +'deg)'
+    el.style.opacity = 0
+  })
+  setTimeout(()=>el.remove(), 5000)
+}
+
+// spawn randomly across width
+setInterval(()=>{
+  const w = window.innerWidth
+  const x = Math.random()*w
+  if(Math.random() < 0.6) spawnHeart(x)
+  if(Math.random() < 0.45) spawnFlower(x)
+}, 320)
+
+// multiple candles on cake
+const candlesContainer = document.getElementById('candles')
+const candleCount = 6
+for(let i=0;i<candleCount;i++){
+  const c = document.createElement('div')
+  c.className = 'candle'
+  c.style.left = (i*18 - (candleCount-1)*9) + 'px'
+  c.innerHTML = '<div class="wick"></div><div class="flame"></div>'
+  candlesContainer.appendChild(c)
+}
+
+// sparkle generation near cake
+function makeSparkle(){
+  const cake = document.getElementById('cake')
+  const s = document.createElement('div')
+  s.className = 'sparkle'
+  const left = 20 + Math.random()*220
+  const top = 10 + Math.random()*80
+  s.style.left = left+'px'
+  s.style.top = top+'px'
+  s.style.opacity = 0.9
+  cake.appendChild(s)
+  const dur = 800 + Math.random()*1400
+  s.animate([
+    {transform:'translateY(0) scale(0.6)', opacity:1},
+    {transform:'translateY(-18px) scale(1.1)', opacity:0}
+  ], {duration:dur, easing:'ease-out'})
+  setTimeout(()=>s.remove(), dur+50)
+}
+setInterval(makeSparkle, 350)
+
+// Button to close the letter and let user interact with page
+const openBtn = document.getElementById('openBtn')
+openBtn.addEventListener('click', ()=>{
+  document.querySelector('.letter-wrap').style.display = 'none'
+  // once closed spawn a burst of particles
+  for(let i=0;i<16;i++){
+    const x = window.innerWidth/2 + (Math.random()*400-200)
+    if(Math.random()<0.6) spawnHeart(x)
+    if(Math.random()<0.6) spawnFlower(x)
+  }
+})
+
+// allow clicking anywhere on letter to close
+document.querySelector('.letter').addEventListener('click', ()=> openBtn.click())
+
+// Accessibility: allow Esc to close
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') openBtn.click() })
+
+// small gentle background motion to keep things alive
+let t = 0
+function animate(){
+  t += 0.01
+  document.body.style.background = `linear-gradient(180deg, rgba(11,0,17,1), rgba(61,0,67,1) )`
+  requestAnimationFrame(animate)
+}
+requestAnimationFrame(animate)
+
+</script>
+</body>
+</html>
